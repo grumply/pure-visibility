@@ -4,12 +4,14 @@ module Pure.Visibility where
 import Pure hiding (Visibility,features,children)
 
 import Pure.Data.Cond
+import Pure.Data.Prop
 
 import Control.Arrow ((&&&))
 import Control.Monad (unless,void,when)
 import Data.Coerce
 import Data.Foldable (for_,traverse_)
 import Data.IORef
+import Data.Maybe
 import GHC.Generics as G
 
 import Data.Function ((&))
@@ -305,11 +307,6 @@ innerHeight =
 #else
     return 0
 #endif
-
-class HasProp p a where
-    type Prop p a :: *
-    getProp :: p -> a -> Prop p a
-    setProp :: p -> Prop p a -> a -> a
 
 data As = As_
 pattern As :: HasProp As a => Prop As a -> a -> a

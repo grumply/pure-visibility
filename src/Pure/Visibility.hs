@@ -1,4 +1,4 @@
-{-# LANGUAGE PatternSynonyms, ViewPatterns, RecordWildCards, CPP, MultiParamTypeClasses, TypeFamilies, DeriveGeneric, DeriveAnyClass, OverloadedStrings #-}
+{-# LANGUAGE PatternSynonyms, ViewPatterns, RecordWildCards, CPP, MultiParamTypeClasses, TypeFamilies, DeriveGeneric, DeriveAnyClass, OverloadedStrings, FlexibleContexts #-}
 module Pure.Visibility where
 
 import Pure hiding (Visibility,features,children)

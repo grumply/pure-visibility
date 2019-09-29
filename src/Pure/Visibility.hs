@@ -17,8 +17,6 @@ import GHC.Generics as G
 
 import Data.Function ((&))
 
-import Pure.Data.Txt
-
 data Passed = PixelsPassed Double | PercentPassed Double
     deriving (Generic,Default,Ord,Eq)
 

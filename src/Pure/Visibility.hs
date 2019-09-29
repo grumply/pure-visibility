@@ -7,6 +7,7 @@ import Pure.Data.Cond
 import Pure.Data.Prop
 
 import Control.Arrow ((&&&))
+import Control.Exception (handle,SomeException)
 import Control.Monad (unless,void,when)
 import Data.Coerce
 import Data.Foldable (for_,traverse_)
@@ -15,6 +16,8 @@ import Data.Maybe
 import GHC.Generics as G
 
 import Data.Function ((&))
+
+import Pure.Data.Txt
 
 data Passed = PixelsPassed Double | PercentPassed Double
     deriving (Generic,Default,Ord,Eq)
@@ -147,7 +150,13 @@ instance Pure Visibility where
                         writeIORef ticking True
                         void $ addAnimation update
 
-                update = do
+                -- Animation frames aren't guaranteed to fire before components
+                -- are swapped out or removed, when it becomes an error to 
+                -- inspect a components environment, state or view. The solution
+                -- was a simple catch-all in those cases. It became apparent this
+                -- was necessary when using `Visibility` for an infinite scroll 
+                -- component where the `Visibility` was swapped out for content.
+                update = handle (\(_ :: SomeException) -> pure ()) $ do
                     Visibility_ {..} <- ask self
                     VS          {..} <- get self
 
@@ -223,7 +232,6 @@ instance Pure Visibility where
                                  <*> newIORef def
                                  <*> newIORef def
                                  <*> newIORef def
-
                 , mounted = do
                     Visibility_ {..} <- ask self
                     VS          {..} <- get self

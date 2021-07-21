@@ -253,7 +253,7 @@ instance Pure Visibility where
                     scrollHandler
 
                 , render = \Visibility_ {..} _ ->
-                    as (features & Lifecycle (HostRef handleRef)) children
+                    as (features & WithHost handleRef) children
 
                 }
 
